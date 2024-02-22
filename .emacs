@@ -1,12 +1,17 @@
+;; add-to-list
+
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'load-path (expand-file-name "openwith-20120531.2136" "~/.emacs.d/custom"))
+
 ;; require
 
 (require 'w3m-load)
 (require 'mime-w3m)
-(require 'dired-x)
+(require 'openwith)
 
-;; add-to-list
+;; other requirements
 
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(openwith-mode t)
 
 ;; appearance
 
@@ -22,21 +27,21 @@
 
 ;; bindings
 
-(setq dired-guess-shell-alist-user
+(setq openwith-associations
       '(
-        ("\\.pdf$" "zathura")
-	("\\.gif$" "sxiv -a")
-        ("\\.png$" "feh -g 640x480 -d")
-	("\\.jpeg$" "feh -g 640x480 -d")
-        ("\\.jpg$" "feh -g 640x480 -d")
-        ("\\.JPG$" "feh -g 640x480 -d")
-	("\\.svg" "feh -g 640x480 -d")
-	("\\.avi$" "mpv")
-	("\\.mkv$" "mpv")
-	("\\.mp4$" "mpv")
+	("\\.pdf$" "zathura" (file))
+	("\\.gif$" "sxiv -a" (file))
+        ("\\.png$" "feh -g 640x480 -d" (file))
+	("\\.jpeg$" "feh -g 640x480 -d" (file))
+        ("\\.jpg$" "feh -g 640x480 -d" (file))
+        ("\\.JPG$" "feh -g 640x480 -d" (file))
+	("\\.svg" "feh -g 640x480 -d" (file))
+	("\\.avi$" "mpv" (file))
+	("\\.mkv$" "mpv" (file))
+	("\\.mp4$" "mpv" (file))
        )
-      )
+)
+
 
 (global-set-key (kbd "C-x c") 'kill-ring-save)
 (global-set-key (kbd "C-c C-r") 'sudo-edit)
-(define-key dired-mode-map (kbd "C-<return>") 'dired-do-shell-command)
