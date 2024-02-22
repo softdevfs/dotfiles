@@ -11,6 +11,10 @@
 
 ;; other requirements
 
+(custom-set-variables
+ '(inhibit-startup-screen t)
+ '(package-selected-packages '(sudo-edit haskell-mode haskell-emacs))
+ )
 (openwith-mode t)
 
 ;; appearance
@@ -18,15 +22,11 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
-
 (load-theme 'timu-rouge t)
-(custom-set-variables
- '(inhibit-startup-screen t)
- '(package-selected-packages '(sudo-edit haskell-mode haskell-emacs))
- '(warning-suppress-types '((comp) (comp))))
 
-;; bindings
+;; settings
 
+(setq make-backup-files nil)
 (setq openwith-associations
       '(
 	("\\.pdf$" "zathura" (file))
@@ -35,13 +35,11 @@
 	("\\.jpeg$" "feh -g 640x480 -d" (file))
         ("\\.jpg$" "feh -g 640x480 -d" (file))
         ("\\.JPG$" "feh -g 640x480 -d" (file))
-	("\\.svg" "feh -g 640x480 -d" (file))
+	("\\.svg$" "feh -g 640x480 -d" (file))
 	("\\.avi$" "mpv" (file))
 	("\\.mkv$" "mpv" (file))
 	("\\.mp4$" "mpv" (file))
        )
 )
-
-
 (global-set-key (kbd "C-x c") 'kill-ring-save)
 (global-set-key (kbd "C-c C-r") 'sudo-edit)
