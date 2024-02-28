@@ -79,7 +79,7 @@ myWorkspaces = [" www ", " dev ", " sys ", " mus ", " chat ", " doc ", " vid ", 
 
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
-clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
+clickable ws = "<action=xdotool key alt+"++show i++">"++ws++"</action>"
     where i = fromJust $ M.lookup ws myWorkspaceIndices
 
 
@@ -116,6 +116,7 @@ defaultXPConfig = def
 --
 myKeys = \c -> mkKeymap c $
   [
+      -- launch terminal
       ("M-S-<Return>", spawnOn " sys " myTerminal)
       -- launch prompt
       , ("M-p", shellPromptHere defaultXPConfig)
@@ -316,7 +317,7 @@ myLogHook xmproc0 = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $
           -- Adding # of windows on current workspace to the bar
         , ppExtras  = [windowCount]
           -- order of things in xmobar
-        -- , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+          -- , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
         , ppOrder = \(ws:l:t:ex) -> [ws, l, t]
         }
 
@@ -377,11 +378,10 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "",
     "-- launching and killing programs",
     "mod-Shift-Enter  Launch xterminal",
-    "mod-p            Launch dmenu",
+    "mod-p            Launch prompt shell",
     "mod-Shift-p      Launch gmrun",
     "mod-Shift-c      Close/kill the focused window",
     "mod-Space        Rotate through the available layout algorithms",
-    "mod-Shift-Space  Reset the layouts on the current workSpace to default",
     "mod-n            Resize/refresh viewed windows to the correct size",
     "",
     "-- move focus up or down the window stack",
@@ -414,8 +414,6 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "",
     "-- Workspaces & screens",
     "mod-Shift-[1..9]   Move client to workspace N",
-    "mod-{w,e,r}        Switch to physical/Xinerama screens 1, 2, or 3",
-    "mod-Shift-{w,e,r}  Move client to screen 1, 2, or 3",
     "",
     "-- Mouse bindings: default actions bound to mouse events",
     "mod-button1  Set the window to floating mode and move by dragging",
