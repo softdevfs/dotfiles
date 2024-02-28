@@ -16,6 +16,7 @@ import Data.Maybe (fromJust)
 import Data.Monoid
 
 import XMonad.Actions.CopyWindow
+import XMonad.Actions.FloatKeys
 import XMonad.Actions.Search
 import XMonad.Actions.SpawnOn
 
@@ -133,9 +134,11 @@ myKeys = \c -> mkKeymap c $
       -- launch scrot (screenshots)
       , ("M-s", spawn "scrot ~/Pictures/screenshots/screenshot.png")
       -- record screen
-      , ("M-S-s", spawn "kitty screenRecorder")
+      , ("M-S-s", spawnOn " sys " "kitty screenRecorder")
       -- copy windows into all workspaces
       , ("C-M-c", (windows copyToAll))
+      -- remove windows from all workspaces except current workspace
+      , ("C-M-S-c",  killAllOtherCopies)
       -- close focused window
       , ("M-S-c", kill)
       -- Rotate through the available layout algorithms
@@ -172,6 +175,16 @@ myKeys = \c -> mkKeymap c $
       , ("M-q", spawn "xmonad --recompile; xmonad --restart")
       -- Run xmessage with a summary of the default keybindings (useful for beginners)
       , ("M-<F1>", spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
+      -- move floating windows
+      , ("M-<Up>", withFocused $ keysMoveWindow (0, -20))
+      , ("M-<Down>", withFocused $ keysMoveWindow (0, 20))
+      , ("M-<Left>", withFocused $ keysMoveWindow (-20, 0))
+      , ("M-<Right>", withFocused $ keysMoveWindow (20, 0))
+      -- resize floating windows
+      , ("M-S-<Up>", withFocused $ keysResizeWindow (0, -20) (0, 0))   
+      , ("M-S-<Down>", withFocused $ keysResizeWindow (0, 20) (0, 0))
+      , ("M-S-<Left>", withFocused $ keysResizeWindow (-20, 0) (0, 0))
+      , ("M-S-<Right>", withFocused $ keysResizeWindow (20, 0) (0,0))
       --
       -- mod-[1..9], Switch to workspace N
       --
@@ -204,19 +217,22 @@ myKeys = \c -> mkKeymap c $
 --
 myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
-    -- mod-button1, Set the window to floating mode and move by dragging
-    [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
-                                       >> windows W.shiftMaster))
+    
+    [
+      -- mod-button1, Set the window to floating mode and move by dragging
+      ((modm, button1), (\w -> focus w >> mouseMoveWindow w
+                          >> windows W.shiftMaster))
 
-    -- mod-button2, Raise the window to the top of the stack
-    , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
+      -- mod-button2, Raise the window to the top of the stack
+      , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
 
-    -- mod-button3, Set the window to floating mode and resize by dragging
-    , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
-                                       >> windows W.shiftMaster))
-
-    -- you may also bind events to the mouse scroll wheel (button4 and button5)
+      -- mod-button3, Set the window to floating mode and resize by dragging
+      , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
+                            >> windows W.shiftMaster))
+      -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
+
+
 
 ------------------------------------------------------------------------
 
@@ -373,7 +389,7 @@ help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "",
     "-- launching and killing programs",
-    "mod-Shift-Enter  Launch xterminal",
+    "mod-Shift-Enter  Launch kitty",
     "mod-p            Launch prompt shell",
     "mod-Shift-p      Launch gmrun",
     "mod-Shift-c      Close/kill the focused window",
@@ -402,6 +418,12 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "-- increase or decrease number of windows in the master area",
     "mod-comma  (mod-,)   Increment the number of windows in the master area",
     "mod-period (mod-.)   Deincrement the number of windows in the master area",
+    "",
+    "-- move or resize floating windows",
+    "mod-{rightArrow|leftArrow}         Move window in the X axis",
+    "mod-{upArrow|downArrow}            Move window in the Y axis",
+    "mod-Shift-{rightArrow|leftArrow}   Resize window in the X axis",
+    "mod-Shift-{upArrow|downArrow}      Resize window in the Y axis",
     "",
     "-- quit, or restart",
     "mod-Shift-q  Quit xmonad",
