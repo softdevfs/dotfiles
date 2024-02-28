@@ -15,6 +15,7 @@ import Data.Char
 import Data.Maybe (fromJust)
 import Data.Monoid
 
+import XMonad.Actions.CopyWindow
 import XMonad.Actions.Search
 import XMonad.Actions.SpawnOn
 
@@ -88,10 +89,6 @@ clickable ws = "<action=xdotool key alt+"++show i++">"++ws++"</action>"
 myNormalBorderColor  = "#ff0000"
 myFocusedBorderColor = "#00e673"
 
--- windowCount
-
-windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
-
 -- search engine
 
 youtubeCustomEngine = searchEngine "YT" "https://www.youtube.com/results?search_query="
@@ -137,6 +134,8 @@ myKeys = \c -> mkKeymap c $
       , ("M-s", spawn "scrot ~/Pictures/screenshots/screenshot.png")
       -- record screen
       , ("M-S-s", spawn "kitty screenRecorder")
+      -- copy windows into all workspaces
+      , ("C-M-c", (windows copyToAll))
       -- close focused window
       , ("M-S-c", kill)
       -- Rotate through the available layout algorithms
@@ -314,10 +313,7 @@ myLogHook xmproc0 = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $
         , ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
           -- Urgent workspace
         , ppUrgent = xmobarColor "#cc241d" "" . wrap "!" "!"
-          -- Adding # of windows on current workspace to the bar
-        , ppExtras  = [windowCount]
           -- order of things in xmobar
-          -- , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
         , ppOrder = \(ws:l:t:ex) -> [ws, l, t]
         }
 
