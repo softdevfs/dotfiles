@@ -92,7 +92,7 @@ myFocusedBorderColor = "#00e673"
 
 -- search engine
 
-youtubeCustomEngine = searchEngine "YT" "https://www.youtube.com/results?search_query="
+amazonES = searchEngine "amazonES" "https://www.amazon.es/s?k="
 
 -- XPConfig (default)
 
@@ -118,16 +118,20 @@ myKeys = \c -> mkKeymap c $
       ("M-S-<Return>", spawnOn " sys " myTerminal)
       -- launch prompt
       , ("M-p", shellPromptHere defaultXPConfig)
+      -- search in amazon
+      , ("M-a", promptSearch defaultXPConfig amazonES)
       -- search in google
       , ("M-g", promptSearch defaultXPConfig google)
       -- search in youtube
-      , ("M-y", promptSearch defaultXPConfig youtubeCustomEngine)
+      , ("M-y", promptSearch defaultXPConfig youtube)
       -- launch gmrun
       , ("M-S-p", spawn "gmrun")
       -- launch emacs
       , ("M-c", spawnOn " dev " "emacs")
       -- launch firefox
       , ("M-f", spawnOn " www " "firefox-esr")
+      -- launch weechat
+      , ("M-w", spawnOn " chat " "kitty weechat")
       -- set volume
       , ("M-v", spawn "pamixer --increase 5")
       , ("M-S-v", spawn "pamixer --decrease 5")
@@ -176,15 +180,15 @@ myKeys = \c -> mkKeymap c $
       -- Run xmessage with a summary of the default keybindings (useful for beginners)
       , ("M-<F1>", spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
       -- move floating windows
-      , ("M-<Up>", withFocused $ keysMoveWindow (0, -20))
-      , ("M-<Down>", withFocused $ keysMoveWindow (0, 20))
-      , ("M-<Left>", withFocused $ keysMoveWindow (-20, 0))
-      , ("M-<Right>", withFocused $ keysMoveWindow (20, 0))
+      , ("C-M-<Up>", withFocused $ keysMoveWindow (0, -20))
+      , ("C-M-<Down>", withFocused $ keysMoveWindow (0, 20))
+      , ("C-M-<Left>", withFocused $ keysMoveWindow (-20, 0))
+      , ("C-M-<Right>", withFocused $ keysMoveWindow (20, 0))
       -- resize floating windows
-      , ("M-S-<Up>", withFocused $ keysResizeWindow (0, -20) (0, 0))   
-      , ("M-S-<Down>", withFocused $ keysResizeWindow (0, 20) (0, 0))
-      , ("M-S-<Left>", withFocused $ keysResizeWindow (-20, 0) (0, 0))
-      , ("M-S-<Right>", withFocused $ keysResizeWindow (20, 0) (0,0))
+      , ("C-M-S-<Up>", withFocused $ keysResizeWindow (0, -20) (0, 0))   
+      , ("C-M-S-<Down>", withFocused $ keysResizeWindow (0, 20) (0, 0))
+      , ("C-M-S-<Left>", withFocused $ keysResizeWindow (-20, 0) (0, 0))
+      , ("C-M-S-<Right>", withFocused $ keysResizeWindow (20, 0) (0,0))
       --
       -- mod-[1..9], Switch to workspace N
       --
@@ -237,7 +241,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 ------------------------------------------------------------------------
 
 myShowWNameTheme = def
-  { swn_font              = "xft:Ubuntu:bold:size=60"
+  { swn_font              = "xft:Ubuntu:bold:size=50"
   , swn_fade              = 1.0
   , swn_bgcolor           = "#1c1f24"
   , swn_color             = "#ffffff"
@@ -344,7 +348,7 @@ myLogHook xmproc0 = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $
 -- By default, do nothing.
 myStartupHook = do
 	spawnOnce "feh --bg-fill ~/Pictures/debian-frost.svg"
-	spawnOnce "twmnd"
+--	spawnOnce "~/Scripts/setNvidiaAsPrimary.bash"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -420,10 +424,10 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "mod-period (mod-.)   Deincrement the number of windows in the master area",
     "",
     "-- move or resize floating windows",
-    "mod-{rightArrow|leftArrow}         Move window in the X axis",
-    "mod-{upArrow|downArrow}            Move window in the Y axis",
-    "mod-Shift-{rightArrow|leftArrow}   Resize window in the X axis",
-    "mod-Shift-{upArrow|downArrow}      Resize window in the Y axis",
+    "M-C-{rightArrow|leftArrow}         Move window in the X axis",
+    "M-C-{upArrow|downArrow}            Move window in the Y axis",
+    "M-C-S-{rightArrow|leftArrow}   Resize window in the X axis",
+    "M-C-S-{upArrow|downArrow}      Resize window in the Y axis",
     "",
     "-- quit, or restart",
     "mod-Shift-q  Quit xmonad",

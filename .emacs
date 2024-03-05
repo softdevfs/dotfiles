@@ -19,6 +19,7 @@
 
 ;; appearance
 
+(display-time-mode 1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
@@ -41,5 +42,7 @@
 	("\\.mp4$" "mpv" (file))
        )
 )
+
+(global-display-line-numbers-mode)
 (global-set-key (kbd "C-x c") 'kill-ring-save)
 (global-set-key (kbd "C-c C-r") 'sudo-edit)
