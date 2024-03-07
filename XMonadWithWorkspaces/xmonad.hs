@@ -99,7 +99,7 @@ amazonES = searchEngine "amazonES" "https://www.amazon.es/s?k="
 defaultXPConfig = def
 -- XPC
   {
-    font = "xft:Mononoki:pixelsize=13",
+    font = "xft:Mononoki:size=12",
     bgColor = "#282828",
     fgColor = "#458588",
     promptBorderWidth = 0,
