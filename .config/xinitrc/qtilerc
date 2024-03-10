@@ -1,0 +1,2 @@
+~/scripts/loop_wp.py &
+~/.local/bin/qtile start

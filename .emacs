@@ -46,3 +46,10 @@
 (global-display-line-numbers-mode)
 (global-set-key (kbd "C-x c") 'kill-ring-save)
 (global-set-key (kbd "C-c C-r") 'sudo-edit)
+
+;; defun(s)
+
+(defun fontify-frame (frame)
+  (set-frame-parameter frame 'font "Mononoki-16"))
+(fontify-frame nil)
+(push 'fontify-frame after-make-frame-functions)
