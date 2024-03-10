@@ -92,7 +92,9 @@ keys = [
 ]
 
 layouts = [
-    layout.MonadTall(border_focus="#00e673", border_normal="#ff0000", margin=5),
+    layout.MonadTall(align=0, border_focus="#00e673", border_normal="#ff0000", margin=5),
+    layout.MonadTall(align=1, border_focus="#00e673", border_normal="#ff0000", margin=5),
+    layout.Max(border_focus="#00e673", border_normal="#ff0000", margin=5)
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # layout.Max(),
     # Try more layouts by unleashing below layouts.
@@ -125,13 +127,13 @@ colors = [["#292d3e", "#292d3e"], # panel background
 
 colors_two = {
     "black":		["#2B303B", "#2B303B"],
-    "grey":		    ["#40444D", "#424A5B"],
+    "grey":		["#40444D", "#424A5B"],
     "white":		["#C0C5CE", "#C0C5CE"],
-    "red":		    ["#BF616A", "#BF616A"],
+    "red":		["#BF616A", "#BF616A"],
     "magenta":		["#B48EAD", "#B48EAD"],
     "green":		["#A3BE8C", "#A3BE8C"],
     "darkgreen":	["#859900", "#859900"],
-    "blue":		    ["#8FA1B3", "#8FA1B3"],
+    "blue":		["#8FA1B3", "#8FA1B3"],
     "darkblue":		["#65737E", "#65737E"],
     "orange":		["#EBCB8B", "#EBCB8B"]
 }
@@ -141,7 +143,6 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(foreground=colors[2], background=colors[0]),
                 widget.GroupBox(
                     active = colors[2],
                     inactive = colors[2],
@@ -155,7 +156,9 @@ screens = [
                     foreground = colors[2],
                     background = colors[0]
                 ),
-                widget.Prompt(),
+                widget.Sep(background=colors[0], foreground=colors[2], padding=10),
+                widget.CurrentLayout(foreground=colors[2], background=colors[0]),
+                widget.Sep(background=colors[0], foreground=colors[2], padding=10),
                 widget.WindowName(foreground=colors[2], background=colors[0]),
                 widget.Image(
                     scale = True,
@@ -190,11 +193,9 @@ screens = [
 		widget.PulseVolume(
 		    foreground = colors_two["black"],
 		    background = colors_two["green"],
-                    volume_app="pamixer",
-                    update_interval=0.05,
+                    limit_max_volume = True,
+                    volume_app = "pamixer"
 		),
-                # widget.QuickExit(),
-                # widget.Sep(),
                 widget.Image(
         	    scale = True,
         	    filename = "~/.config/qtile/icons/bar05.png",
