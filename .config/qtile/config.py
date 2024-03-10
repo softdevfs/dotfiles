@@ -50,6 +50,7 @@ keys = [
     EzKey("A-S-c", lazy.window.kill(), desc="Kill focused window"),
     EzKey("C-A-f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window"),
     EzKey("C-A-z", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    EzKey("A-r", lazy.spawn("killall loop_wp.py"), desc="Kill loop_wp.py process"),
     EzKey("A-q", lazy.reload_config(), desc="Reload the config"),
     EzKey("A-S-q", lazy.shutdown(), desc="Shutdown Qtile"),
     # MonadTall specific ##############
@@ -64,8 +65,8 @@ keys = [
     EzKey("A-f", lazy.spawn("firefox-esr"), desc="Launch firefox"),
     EzKey("A-c", lazy.spawn("emacs"), desc="Launch emacs"),
     EzKey("A-i", lazy.spawn("kitty irssi"), desc="Launch irssi"),
-    EzKey("A-s", lazy.spawn("scrot ~/pictures/screenshots/screenshot.png"), desc="Take screenshot"),
-    EzKey("A-C-s", lazy.spawn("scrot -s ~/pictures/screenshots/screenshot.png"), desc="Take a selected screenshot"),
+    EzKey("A-s", lazy.spawn("scrot /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take screenshot"),
+    EzKey("A-C-s", lazy.spawn("scrot -s /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take a selected screenshot"),
     EzKey("A-S-s", lazy.spawn("kitty screenRecorder"), desc="Capture desktop"),
     ###################################
     # Workspaces
