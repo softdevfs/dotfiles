@@ -191,7 +191,7 @@ screens = [
 		    foreground = colors_two["black"],
 		    background = colors_two["green"],
                     volume_app="pamixer",
-                    update_interval=1,
+                    update_interval=0.05,
 		),
                 # widget.QuickExit(),
                 # widget.Sep(),
