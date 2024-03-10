@@ -117,13 +117,13 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-colors = [["#292d3e", "#292d3e"], # panel background
-          ["#434758", "#434758"], # background for current screen tab
-          ["#ffffff", "#ffffff"], # font color for group names
-          ["#ff5555", "#ff5555"], # border line color for current tab
-          ["#8d62a9", "#8d62a9"], # border line color for other tab and odd widgets
-          ["#668bd7", "#668bd7"], # color for the even widgets
-          ["#e1acff", "#e1acff"]] # window name
+colors = [["#292d3e", "#292d3e"],
+          ["#434758", "#434758"],
+          ["#ffffff", "#ffffff"],
+          ["#ff5555", "#ff5555"],
+          ["#8d62a9", "#8d62a9"],
+          ["#668bd7", "#668bd7"],
+          ["#e1acff", "#e1acff"]]
 
 colors_two = {
     "black":		["#2B303B", "#2B303B"],
@@ -144,15 +144,12 @@ screens = [
         top=bar.Bar(
             [
                 widget.GroupBox(
-                    active = colors[2],
+                    active = colors[3],
                     inactive = colors[2],
                     rounded = False,
-                    highlight_color = colors[1],
                     highlight_method = "line",
+                    highlight_color = colors[1],
                     this_current_screen_border = colors[3],
-                    this_screen_border = colors [4],
-                    other_current_screen_border = colors[0],
-                    other_screen_border = colors[0],
                     foreground = colors[2],
                     background = colors[0]
                 ),
