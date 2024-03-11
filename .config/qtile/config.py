@@ -54,8 +54,8 @@ keys = [
     EzKey("A-q", lazy.reload_config(), desc="Reload the config"),
     EzKey("A-S-q", lazy.shutdown(), desc="Shutdown Qtile"),
     # MonadTall specific ##############
-    EzKey("A-k", lazy.layout.grow(), desc="Grow window"),
-    EzKey("A-j", lazy.layout.shrink(), desc="Shrink window"),
+    EzKey("A-l", lazy.layout.grow(), desc="Grow window"),
+    EzKey("A-h", lazy.layout.shrink(), desc="Shrink window"),
     EzKey("A-S-j", lazy.layout.swap_left(), desc="Move window to the left"),
     EzKey("A-S-k", lazy.layout.swap_right(), desc="Move window to the right"),
     ###################################
@@ -234,7 +234,7 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
     ]
 )
-auto_fullscreen = True
+auto_fullscreen = False
 focus_on_window_activation = "smart"
 reconfigure_screens = True
 
