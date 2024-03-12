@@ -31,7 +31,7 @@ import XMonad.Layout.Spacing
 
 import XMonad.Prompt
 
-import XMonad.Util.EZConfig (mkKeymap)
+import XMonad.Util.EZConfig (mkKeymap, additionalKeysP)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
@@ -124,8 +124,6 @@ myKeys = \c -> mkKeymap c $
       , ("M-g", promptSearch defaultXPConfig google)
       -- search in youtube
       , ("M-y", promptSearch defaultXPConfig youtube)
-      -- launch gmrun
-      , ("M-S-p", spawn "gmrun")
       -- launch emacs
       , ("M-c", spawnOn " dev " "emacs")
       -- launch firefox
@@ -147,6 +145,8 @@ myKeys = \c -> mkKeymap c $
       , ("C-M-S-c",  killAllOtherCopies)
       -- close focused window
       , ("M-S-c", kill)
+      -- kill loop_wp script process
+      , ("M-r", spawn "killall loop_wp.py")
       -- Rotate through the available layout algorithms
       , ("M-<Space>", sendMessage NextLayout)
       -- Resize viewed windows to the correct size
@@ -217,6 +217,14 @@ myKeys = \c -> mkKeymap c $
       , ("M-S-9", (windows $ W.shift $ myWorkspaces !! 8))
   ]
 
+alternativeModKey = mod4Mask
+myExtendedKeysXConfig = def { modMask = alternativeModKey }
+
+myExtendedKeys conf@(myExtendedKeysXConfig) = M.fromList $
+  [
+    ((alternativeModKey, xK_q), spawn "~/scripts/switch-qtile"),
+    ((alternativeModKey, xK_m), spawn "~/scripts/switch-xmonad")
+  ]
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
@@ -237,7 +245,6 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
                             >> windows W.shiftMaster))
       -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
-
 
 
 ------------------------------------------------------------------------
@@ -379,7 +386,7 @@ defaults xmproc = def {
         focusedBorderColor = myFocusedBorderColor,
 
       -- key bindings
-        keys               = myKeys,
+        keys               = myKeys <> myExtendedKeys,
         mouseBindings      = myMouseBindings,
 
       -- hooks, layouts

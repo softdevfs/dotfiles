@@ -58,6 +58,7 @@ keys = [
     EzKey("A-h", lazy.layout.shrink(), desc="Shrink window"),
     EzKey("A-S-j", lazy.layout.swap_left(), desc="Move window to the left"),
     EzKey("A-S-k", lazy.layout.swap_right(), desc="Move window to the right"),
+    EzKey("A-t", lazy.layout.reset(), desc="Reset all window sizes"),
     ###################################
     # Programs
     EzKey("A-v", lazy.spawn("pamixer -i 5"), desc="Increase volume"),
@@ -68,6 +69,10 @@ keys = [
     EzKey("A-s", lazy.spawn("scrot /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take screenshot"),
     EzKey("A-C-s", lazy.spawn("scrot -s /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take a selected screenshot"),
     EzKey("A-S-s", lazy.spawn("kitty screenRecorder"), desc="Capture desktop"),
+    ###################################
+    # Scripts
+    EzKey("M-q", lazy.spawn("/home/sergio/scripts/switch-qtile"), desc=".xinitrc symlink points to qtilerc"),
+    EzKey("M-m", lazy.spawn("/home/sergio/scripts/switch-xmonad"), desc=".xinitrc symlink points to xmonadrc"),
     ###################################
     # Workspaces
     EzKey("A-p", lazy.spawn("dmenu_run -fn 'Mononoki-16'"), desc="Spawn a command using a prompt widget"),
