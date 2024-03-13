@@ -13,14 +13,15 @@ from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, EzKey
 from libqtile.lazy import lazy
 
-win_list = []
+sticky_windows = []
+
 def stick_win(qtile):
-    global win_list
-    win_list.append(qtile.current_window)
+    global sticky_windows
+    sticky_windows.append(qtile.current_window)
 def unstick_win(qtile):
-    global win_list
-    if qtile.current_window in win_list:
-        win_list.remove(qtile.current_window)
+    global sticky_windows
+    if qtile.current_window in sticky_windows:
+        sticky_windows.remove(qtile.current_window)
 
 mod = "mod1"
 terminal = "kitty"
@@ -62,11 +63,11 @@ keys = [
     EzKey("A-i", lazy.spawn("kitty irssi"), desc="Launch irssi"),
     EzKey("A-s", lazy.spawn("scrot /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take screenshot"),
     EzKey("A-C-s", lazy.spawn("scrot -s /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take a selected screenshot"),
-    EzKey("A-S-s", lazy.spawn("kitty screenRecorder"), desc="Capture desktop"),
+    EzKey("A-S-s", lazy.spawn("kitty /home/sergio/scripts/screenRecorder"), desc="Capture desktop"),
     ###################################
     # lazy custom function
-    EzKey("C-A-c", lazy.function(stick_win), desc="stick win"),
-    EzKey("C-A-S-c", lazy.function(unstick_win), desc="unstick win"),
+    EzKey("C-A-c", lazy.function(stick_win), desc="Stick window"),
+    EzKey("C-A-S-c", lazy.function(unstick_win), desc="Unstick window"),
     ###################################
     # Scripts
     EzKey("M-q", lazy.spawn("/home/sergio/scripts/switch-qtile"), desc=".xinitrc symlink points to qtilerc"),
@@ -112,11 +113,6 @@ layouts = [
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
-
-@hook.subscribe.setgroup
-def move_win():
-    for w in win_list:
-        w.togroup(qtile.current_group.name)
 
 widget_defaults = dict(
     font="JetBrains Mono",
@@ -268,3 +264,21 @@ wl_input_rules = None
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+
+# Hooks
+
+@hook.subscribe.setgroup
+def move_sticky_windows():
+    for window in sticky_windows:
+        window.togroup(qtile.current_group.name)
+
+@hook.subscribe.client_killed
+def remove_sticky_windows(window):
+    if window in sticky_windows:
+        sticky_windows.remove(window)
+
+@hook.subscribe.client_managed
+def auto_sticky_windows(window):
+    info = window.info()
+    if (info['wm_class'] == ['guvcview', 'guvcview']):
+        sticky_windows.append(window)
