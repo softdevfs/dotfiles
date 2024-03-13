@@ -30,8 +30,8 @@ from libqtile.lazy import lazy
 
 mod = "mod1"
 terminal = "kitty"
-groups = [Group(i) for i in [" www ", " dev ", " sys ", " mus ", " chat ", " doc ", " vid ", " vbox ", " gfx "] ]
-
+groups = [Group(i) for i in ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "] ]
+# [ www, dev, sys, mus, chat, doc, vid, vbox, gfx ]
 
 keys = [
     EzKey("A-j", lazy.layout.left(), desc="Move focus to left"),
@@ -75,31 +75,30 @@ keys = [
     EzKey("M-m", lazy.spawn("/home/sergio/scripts/switch-xmonad"), desc=".xinitrc symlink points to xmonadrc"),
     ###################################
     # Workspaces
-    EzKey("A-p", lazy.spawn("dmenu_run -fn 'Mononoki-16'"), desc="Spawn a command using a prompt widget"),
-    EzKey("A-1", lazy.group[" www "].toscreen(), desc="Switch to www workspace"),
-    EzKey("A-2", lazy.group[" dev "].toscreen(), desc="Switch to dev workspace"),
-    EzKey("A-3", lazy.group[" sys "].toscreen(), desc="Switch to sys workspace"),
-    EzKey("A-4", lazy.group[" mus "].toscreen(), desc="Switch to mus workspace"),
-    EzKey("A-5", lazy.group[" chat "].toscreen(), desc="Switch to chat workspace"),
-    EzKey("A-6", lazy.group[" doc "].toscreen(), desc="Switch to doc workspace"),
-    EzKey("A-7", lazy.group[" vid "].toscreen(), desc="Switch to vid workspace"),
-    EzKey("A-8", lazy.group[" vbox "].toscreen(), desc="Switch to vbox workspace"),
-    EzKey("A-9", lazy.group[" gfx "].toscreen(), desc="Switch to gfx workspace"),
-    EzKey("A-S-1", lazy.window.togroup(" www ", switch_group=False), desc="Move focused window to www workspace"),
-    EzKey("A-S-2", lazy.window.togroup(" dev ", switch_group=False), desc="Move focused window to dev workspace"),
-    EzKey("A-S-3", lazy.window.togroup(" sys ", switch_group=False), desc="Move focused window to sys workspace"),
-    EzKey("A-S-4", lazy.window.togroup(" mus ", switch_group=False), desc="Move focused window to mus workspace"),
-    EzKey("A-S-5", lazy.window.togroup(" chat ", switch_group=False), desc="Move focused window to chat workspace"),
-    EzKey("A-S-6", lazy.window.togroup(" doc ", switch_group=False), desc="Move focused window to doc workspace"),
-    EzKey("A-S-7", lazy.window.togroup(" vid ", switch_group=False), desc="Move focused window to vid workspace"),
-    EzKey("A-S-8", lazy.window.togroup(" vbox ", switch_group=False), desc="Move focused window to vbox workspace"),
-    EzKey("A-S-9", lazy.window.togroup(" gfx ", switch_group=False), desc="Move focused window to gfx workspace"),
+    EzKey("A-p", lazy.spawn("dmenu_run -fn 'JetBrains Mono-14'"), desc="Spawn a command using a prompt widget"),
+    EzKey("A-1", lazy.group["  "].toscreen(), desc="Switch to www workspace"),
+    EzKey("A-2", lazy.group["  "].toscreen(), desc="Switch to dev workspace"),
+    EzKey("A-3", lazy.group["  "].toscreen(), desc="Switch to sys workspace"),
+    EzKey("A-4", lazy.group["  "].toscreen(), desc="Switch to mus workspace"),
+    EzKey("A-5", lazy.group["  "].toscreen(), desc="Switch to chat workspace"),
+    EzKey("A-6", lazy.group["  "].toscreen(), desc="Switch to doc workspace"),
+    EzKey("A-7", lazy.group["  "].toscreen(), desc="Switch to vid workspace"),
+    EzKey("A-8", lazy.group["  "].toscreen(), desc="Switch to vbox workspace"),
+    EzKey("A-9", lazy.group["  "].toscreen(), desc="Switch to gfx workspace"),
+    EzKey("A-S-1", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to www workspace"),
+    EzKey("A-S-2", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to dev workspace"),
+    EzKey("A-S-3", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to sys workspace"),
+    EzKey("A-S-4", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to mus workspace"),
+    EzKey("A-S-5", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to chat workspace"),
+    EzKey("A-S-6", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to doc workspace"),
+    EzKey("A-S-7", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to vid workspace"),
+    EzKey("A-S-8", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to vbox workspace"),
+    EzKey("A-S-9", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to gfx workspace"),
     ###################################
 ]
 
 layouts = [
     layout.MonadTall(align=0, border_focus="#00e673", border_normal="#ff0000", margin=5),
-    layout.MonadTall(align=1, border_focus="#00e673", border_normal="#ff0000", margin=5),
     layout.Max(border_focus="#00e673", border_normal="#ff0000", margin=5)
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # layout.Max(),
@@ -117,7 +116,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="Mononoki",
+    font="JetBrains Mono",
     fontsize=16,
     padding=3,
 )
@@ -150,6 +149,7 @@ screens = [
         top=bar.Bar(
             [
                 widget.GroupBox(
+                    font = "Font Awesome 6 Free Solid",
                     active = colors[3],
                     inactive = colors[2],
                     rounded = False,
@@ -174,7 +174,13 @@ screens = [
                     background = colors_two["red"]
                 ),
                 widget.TextBox(
-                    text="b34n5💻",
+                    font="Font Awesome 6 Free",
+                    text="",
+                    background = colors_two["red"],
+                    foreground = colors_two["black"]
+                ),
+                widget.TextBox(
+                    text="b34n5 ",
                     background = colors_two["red"],
                     foreground = colors_two["black"]
                 ),
@@ -183,15 +189,38 @@ screens = [
                     filename = "~/.config/qtile/icons/bar03.png",
                     background = colors_two["magenta"]
                 ),
+                widget.TextBox(
+                    font="Font Awesome 6 Free Solid",
+                    text="",
+                    foreground = colors_two["black"],
+                    background = colors_two["magenta"],
+                ),
                 widget.Clock(
                     foreground = colors_two["black"],
                     background = colors_two["magenta"],
-                    format='%d-%m-%Y %a %H:%M %p'
+                    format='%d-%m-%Y %a'
+                ),
+                widget.TextBox(
+                    font="Font Awesome 6 Free Solid",
+                    text="  ",
+                    foreground = colors_two["black"],
+                    background = colors_two["magenta"],
+                ),
+                widget.Clock(
+                    foreground = colors_two["black"],
+                    background = colors_two["magenta"],
+                    format='%H:%M %p'
                 ),
                 widget.Image(
                     scale = True,
                     filename = "~/.config/qtile/icons/bar04.png",
                     background = colors_two["green"]
+                ),
+                widget.TextBox(
+                    font="Font Awesome 6 Free",
+                    text="  ",
+                    foreground = colors_two["black"],
+                    background = colors_two["green"],
                 ),
 		widget.PulseVolume(
 		    foreground = colors_two["black"],
@@ -204,6 +233,12 @@ screens = [
         	    filename = "~/.config/qtile/icons/bar05.png",
         	    background = colors_two["blue"]
         	),
+                widget.TextBox(
+                    font="Font Awesome 6 Free",
+                    text=" ",
+                    background=colors_two["blue"],
+                    foreground=colors_two["black"]
+                ),
                 widget.Memory(
                     background = colors_two["blue"],
                     foreground = colors_two["black"]
