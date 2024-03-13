@@ -1,11 +1,13 @@
---
--- xmonad example config file.
---
--- A template showing all available configuration hooks,
--- and how to override the defaults in your own xmonad.hs conf file.
---
--- Normally, you'd only override those defaults you care about.
---
+------------------------------------------------------------------------------------------------
+--  m    m m    m                          #                                m""    "          --
+--   #  #  ##  ##  mmm   m mm    mmm    mmm#          mmm    mmm   m mm   mm#mm  mmm     mmmm --
+--    ##   # ## # #" "#  #"  #  "   #  #" "#         #"  "  #" "#  #"  #    #      #    #" "# --
+--   m""m  # "" # #   #  #   #  m"""#  #   #         #      #   #  #   #    #      #    #   # --
+--  m"  "m #    # "#m#"  #   #  "mm"#  "#m##         "#mm"  "#m#"  #   #    #    mm#mm  "#m"# --
+--                                                                                       m  # --
+--                                                                                        ""  --
+--      By: B34n5                                                                             --
+------------------------------------------------------------------------------------------------
 
 import XMonad
 
@@ -99,7 +101,7 @@ amazonES = searchEngine "amazonES" "https://www.amazon.es/s?k="
 defaultXPConfig = def
 -- XPC
   {
-    font = "xft:Mononoki:size=10",
+    font = "xft:JetBrains Mono:size=12",
     bgColor = "#282828",
     fgColor = "#458588",
     promptBorderWidth = 0,
@@ -268,7 +270,7 @@ myShowWNameTheme = def
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = spacingWithEdge 5 $ avoidStruts (tiled ||| Mirror tiled ||| Full)
+myLayout = spacingWithEdge 5 $ avoidStruts (tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -342,7 +344,7 @@ myLogHook xmproc0 = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $
           -- Urgent workspace
         , ppUrgent = xmobarColor "#cc241d" "" . wrap "!" "!"
           -- order of things in xmobar
-        , ppOrder = \(ws:l:t:ex) -> [ws, l, t]
+        , ppOrder = \(ws:l:t:ex) -> [ws, t]
         }
 
 
