@@ -189,38 +189,15 @@ screens = [
                     filename = "~/.config/qtile/icons/bar03.png",
                     background = colors_two["magenta"]
                 ),
-                widget.TextBox(
-                    font="Font Awesome 6 Free Solid",
-                    text="",
-                    foreground = colors_two["black"],
-                    background = colors_two["magenta"],
-                ),
                 widget.Clock(
                     foreground = colors_two["black"],
                     background = colors_two["magenta"],
-                    format='%d-%m-%Y %a'
-                ),
-                widget.TextBox(
-                    font="Font Awesome 6 Free Solid",
-                    text="  ",
-                    foreground = colors_two["black"],
-                    background = colors_two["magenta"],
-                ),
-                widget.Clock(
-                    foreground = colors_two["black"],
-                    background = colors_two["magenta"],
-                    format='%H:%M %p'
+                    format='%d-%m-%Y %a %H:%M %p'
                 ),
                 widget.Image(
                     scale = True,
                     filename = "~/.config/qtile/icons/bar04.png",
                     background = colors_two["green"]
-                ),
-                widget.TextBox(
-                    font="Font Awesome 6 Free",
-                    text="  ",
-                    foreground = colors_two["black"],
-                    background = colors_two["green"],
                 ),
 		widget.PulseVolume(
 		    foreground = colors_two["black"],
@@ -233,12 +210,6 @@ screens = [
         	    filename = "~/.config/qtile/icons/bar05.png",
         	    background = colors_two["blue"]
         	),
-                widget.TextBox(
-                    font="Font Awesome 6 Free",
-                    text=" ",
-                    background=colors_two["blue"],
-                    foreground=colors_two["black"]
-                ),
                 widget.Memory(
                     background = colors_two["blue"],
                     foreground = colors_two["black"]
