@@ -141,6 +141,8 @@ myKeys = \c -> mkKeymap c $
       , ("C-M-s", spawn "scrot -s ~/pictures/screenshots/screenshot.png")
       -- record screen
       , ("M-S-s", spawnOn " sys " "kitty screenRecorder")
+      -- play youtube video in mpv player
+      , ("M-C-p", spawnOn " vid " "~/scripts/playYoutube")
       -- copy windows into all workspaces
       , ("C-M-c", (windows copyToAll))
       -- remove windows from all workspaces except current workspace
@@ -359,7 +361,6 @@ myLogHook xmproc0 = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $
 myStartupHook = do
 	spawnOnce "~/scripts/loop_wp.py &"
 	spawnOnce "setxkbmap es"
---	spawnOnce "~/Scripts/setNvidiaAsPrimary.bash"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.

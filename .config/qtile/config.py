@@ -64,6 +64,8 @@ keys = [
     EzKey("A-s", lazy.spawn("scrot /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take screenshot"),
     EzKey("A-C-s", lazy.spawn("scrot -s /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take a selected screenshot"),
     EzKey("A-S-s", lazy.spawn("kitty /home/sergio/scripts/screenRecorder"), desc="Capture desktop"),
+    EzKey("A-y", lazy.spawn("/home/sergio/scripts/dmenu_youtube"), desc="Youtube search prompt"),
+    EzKey("A-C-p", lazy.spawn("/home/sergio/scripts/playYoutube"), desc="Play YT video in mpv player"),
     ###################################
     # lazy custom function
     EzKey("C-A-c", lazy.function(stick_win), desc="Stick window"),
@@ -282,3 +284,11 @@ def auto_sticky_windows(window):
     info = window.info()
     if (info['wm_class'] == ['guvcview', 'guvcview']):
         sticky_windows.append(window)
+
+@hook.subscribe.client_new
+def floating_mpv(window):
+    info = window.info()
+    if (info['wm_class'] == ['gl', 'mpv']):
+        window.toggle_floating()
+        window.set_size_floating(1680, 1024)
+        window.center()
