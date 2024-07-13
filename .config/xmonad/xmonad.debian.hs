@@ -360,9 +360,8 @@ myLogHook = xmobarPP
 --
 -- By default, do nothing.
 myStartupHook = do
-	spawnOnce "~/scripts/loop_wp.py &"
-	spawnOnce "setxkbmap es"
-  spawnOnce "~/scripts/unsetBlackScreen.sh"
+    spawnOnce "~/scripts/loop_wp.py &"
+    spawnOnce "setxkbmap es"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
