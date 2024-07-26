@@ -12,6 +12,7 @@
 from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, EzKey
 from libqtile.lazy import lazy
+import subprocess
 
 sticky_windows = []
 
@@ -25,8 +26,8 @@ def unstick_win(qtile):
 
 mod = "mod1"
 terminal = "kitty"
-groups = [Group(i) for i in ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "] ]
-# [ www, dev, sys, mus, chat, doc, vid, vbox, gfx ]
+groups = [Group(i) for i in [ " www ", " dev ", " sys ", " mus ", " chat ", " doc ", " vid ", " vbox ", " gfx " ]]
+# ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "] ]
 
 keys = [
     EzKey("A-j", lazy.layout.left(), desc="Move focus to left"),
@@ -56,14 +57,13 @@ keys = [
     EzKey("A-t", lazy.layout.reset(), desc="Reset all window sizes"),
     ###################################
     # Programs
+    EzKey("A-r", lazy.spawn("pkill loop_wp.py"), desc="Stop looping wallpapers"),
+    EzKey("A-x", lazy.spawn("mouseless"), desc="Mouse management with keyboard"),
     EzKey("A-v", lazy.spawn("pamixer -i 5"), desc="Increase volume"),
     EzKey("A-S-v", lazy.spawn("pamixer -d 5"), desc="Decrease volume"),
-    EzKey("A-f", lazy.spawn("firefox-esr"), desc="Launch firefox"),
-    EzKey("A-c", lazy.spawn("emacs"), desc="Launch emacs"),
-    EzKey("A-i", lazy.spawn("kitty irssi"), desc="Launch irssi"),
+    EzKey("A-f", lazy.spawn("firefox"), desc="Launch firefox"),
     EzKey("A-s", lazy.spawn("scrot /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take screenshot"),
     EzKey("A-C-s", lazy.spawn("scrot -s /home/sergio/pictures/screenshots/scrot_%y-%m-%d_%H%M%S.png"), desc="Take a selected screenshot"),
-    EzKey("A-S-s", lazy.spawn("kitty /home/sergio/scripts/screenRecorder"), desc="Capture desktop"),
     EzKey("A-y", lazy.spawn("/home/sergio/scripts/dmenu_youtube"), desc="Youtube search prompt"),
     EzKey("A-C-p", lazy.spawn("/home/sergio/scripts/playYoutube"), desc="Play YT video in mpv player"),
     ###################################
@@ -77,24 +77,24 @@ keys = [
     ###################################
     # Workspaces
     EzKey("A-p", lazy.spawn("dmenu_run -fn 'JetBrains Mono-14'"), desc="Spawn a command using a prompt widget"),
-    EzKey("A-1", lazy.group["  "].toscreen(), desc="Switch to www workspace"),
-    EzKey("A-2", lazy.group["  "].toscreen(), desc="Switch to dev workspace"),
-    EzKey("A-3", lazy.group["  "].toscreen(), desc="Switch to sys workspace"),
-    EzKey("A-4", lazy.group["  "].toscreen(), desc="Switch to mus workspace"),
-    EzKey("A-5", lazy.group["  "].toscreen(), desc="Switch to chat workspace"),
-    EzKey("A-6", lazy.group["  "].toscreen(), desc="Switch to doc workspace"),
-    EzKey("A-7", lazy.group["  "].toscreen(), desc="Switch to vid workspace"),
-    EzKey("A-8", lazy.group["  "].toscreen(), desc="Switch to vbox workspace"),
-    EzKey("A-9", lazy.group["  "].toscreen(), desc="Switch to gfx workspace"),
-    EzKey("A-S-1", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to www workspace"),
-    EzKey("A-S-2", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to dev workspace"),
-    EzKey("A-S-3", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to sys workspace"),
-    EzKey("A-S-4", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to mus workspace"),
-    EzKey("A-S-5", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to chat workspace"),
-    EzKey("A-S-6", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to doc workspace"),
-    EzKey("A-S-7", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to vid workspace"),
-    EzKey("A-S-8", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to vbox workspace"),
-    EzKey("A-S-9", lazy.window.togroup("  ", switch_group=False), desc="Move focused window to gfx workspace"),
+    EzKey("A-1", lazy.group[" www "].toscreen(), desc="Switch to www workspace"),
+    EzKey("A-2", lazy.group[" dev "].toscreen(), desc="Switch to dev workspace"),
+    EzKey("A-3", lazy.group[" sys "].toscreen(), desc="Switch to sys workspace"),
+    EzKey("A-4", lazy.group[" mus "].toscreen(), desc="Switch to mus workspace"),
+    EzKey("A-5", lazy.group[" chat "].toscreen(), desc="Switch to chat workspace"),
+    EzKey("A-6", lazy.group[" doc "].toscreen(), desc="Switch to doc workspace"),
+    EzKey("A-7", lazy.group[" vid "].toscreen(), desc="Switch to vid workspace"),
+    EzKey("A-8", lazy.group[" vbox "].toscreen(), desc="Switch to vbox workspace"),
+    EzKey("A-9", lazy.group[" gfx "].toscreen(), desc="Switch to gfx workspace"),
+    EzKey("A-S-1", lazy.window.togroup(" www ", switch_group=False), desc="Move focused window to www workspace"),
+    EzKey("A-S-2", lazy.window.togroup(" dev ", switch_group=False), desc="Move focused window to dev workspace"),
+    EzKey("A-S-3", lazy.window.togroup(" sys ", switch_group=False), desc="Move focused window to sys workspace"),
+    EzKey("A-S-4", lazy.window.togroup(" mus ", switch_group=False), desc="Move focused window to mus workspace"),
+    EzKey("A-S-5", lazy.window.togroup(" chat ", switch_group=False), desc="Move focused window to chat workspace"),
+    EzKey("A-S-6", lazy.window.togroup(" doc ", switch_group=False), desc="Move focused window to doc workspace"),
+    EzKey("A-S-7", lazy.window.togroup(" vid ", switch_group=False), desc="Move focused window to vid workspace"),
+    EzKey("A-S-8", lazy.window.togroup(" vbox ", switch_group=False), desc="Move focused window to vbox workspace"),
+    EzKey("A-S-9", lazy.window.togroup(" gfx ", switch_group=False), desc="Move focused window to gfx workspace"),
     ###################################
 ]
 
@@ -150,7 +150,6 @@ screens = [
         top=bar.Bar(
             [
                 widget.GroupBox(
-                    font = "Font Awesome 6 Free Solid",
                     active = colors[3],
                     inactive = colors[2],
                     rounded = False,
@@ -292,3 +291,8 @@ def floating_mpv(window):
         window.toggle_floating()
         window.set_size_floating(1680, 1024)
         window.center()
+
+@hook.subscribe.startup_once
+def autostart():
+    subprocess.Popen(["/usr/bin/python3", "/home/sergio/scripts/loop_wp.py"])
+    subprocess.Popen(["/usr/bin/picom", "-b"])
