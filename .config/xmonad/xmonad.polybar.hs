@@ -363,6 +363,7 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 myBar = "polybar ~/.config/polybar/config.ini"
+-- myPP = myLogHook <---------------------------- use with xmobar
 myPP = ewmhDesktopsLogHook
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b) -- doesn't do anything
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey defaults			
@@ -391,7 +392,7 @@ defaults = def {
       -- hooks, layouts
         layoutHook         = showWName' myShowWNameTheme $ myLayout,
         manageHook         = manageSpawn <> myManageHook,
-      -- handleEventHook    = myEventHook,
+      -- handleEventHook    = myEventHook, <----------------------------------- use with xmobar
         handleEventHook	   = ewmhDesktopsEventHook <+> fullscreenEventHook,
       -- logHook            = myLogHook xmproc,
         startupHook        = myStartupHook
