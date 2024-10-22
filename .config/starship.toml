@@ -1,18 +1,24 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-add_newline = false
+add_newline = true
+format = '''[sergio](garnet)@[$hostname](bold sea)$character 
+$directory'''
 palette = 'custom'
 
 [character]
-format = '''[sergio](garnet)@[archie](bold sea) [       ](bold custom_orange)  '''
-success_symbol = '[🗸](bold green)'
-error_symbol = '[𐄂](bold red)'
+format = '''[       ](bold custom_orange) '''
 
 [directory]
 disabled = false
 home_symbol = '/home/sergio'
 format = '[current_dir:](cyan) [$path]($style)[$read_only]($read_only_style) '
 style = 'bold green'
+
+[hostname]
+ssh_only = false
+format = "$hostname"
+style = "bold fg:10"
+disabled = false
 
 [palettes.custom]
 garnet = '#b16286'
