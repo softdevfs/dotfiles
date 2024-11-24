@@ -1,0 +1,43 @@
+[general]
+accounts = Internet, Work
+pythonfile = ~/scripts/offlineimap.py
+starttls = yes
+ssl = yes
+
+[Account Internet]
+localrepository = LocalInternet
+remoterepository = RemoteInternet
+
+[Repository LocalInternet]
+type = Maildir
+localfolders = ~/Mail/Internet
+
+[Repository RemoteInternet]
+type = Gmail
+remoteuser = thehomiciderrss@gmail.com
+remotepasseval = get_password_internet()
+
+nametrans = lambda folder: folder.replace('[Gmail]/', '')
+folderfilter = lambda foldername: foldername not in [
+    '[Gmail]/Todos',
+    ]
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Account Work]
+localrepository = LocalWork
+remoterepository = RemoteWork
+
+[Repository LocalWork]
+type = Maildir
+localfolders = ~/Mail/Work
+
+[Repository RemoteWork]
+type = Gmail
+remoteuser = sergigarcia1992@gmail.com
+remotepasseval = get_password_work()
+
+nametrans = lambda folder: folder.replace('[Gmail]/', '')
+folderfilter = lambda foldername: foldername in [
+    '[Gmail]/Enviados',
+    ]
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
