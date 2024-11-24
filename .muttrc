@@ -1,0 +1,18 @@
+set header_cache = "~/.mutt/cache/headers"
+set message_cachedir = "~/.mutt/cache/bodies"
+set certificate_file = "~/.mutt/certificates"
+
+set charset = UTF-8
+set pager_format = "%F <%a> to %r at %{%T} in %{%d/%m/%Y}"
+set editor = "micro"
+set edit_headers = yes     
+set ssl_force_tls = yes
+set use_from = yes
+unset use_domain
+
+# ================  OTHER  ====================
+
+folder-hook Internet set from="thehomiciderrss@gmail.com"
+folder-hook Work set from="sergigarcia1992@gmail.com"
+
+set sort=reverse-date

@@ -1,0 +1,22 @@
+# ================  IMAP ====================
+
+set imap_user = sergigarcia1992@gmail.com
+set imap_pass = "`pass show NeomuttWork`"
+
+set spoolfile = imaps://imap.gmail.com/INBOX
+set folder = imaps://imap.gmail.com/
+set record="imaps://imap.gmail.com/[Gmail]/Enviados"
+set postponed="imaps://imap.gmail.com/[Gmail]/Borradores"
+set mbox="imaps://imap.gmail.com/[Gmail]/Todos"
+
+# ================  SMTP ====================
+
+set smtp_url = "smtp://sergigarcia1992@gmail.com@smtp.gmail.com:587/"
+set smtp_pass = $imap_pass
+
+set realname = "Sergio García"
+set from = "sergigarcia1992@gmail.com"
+
+# ================  INCLUDE ====================
+
+source ~/.muttrc

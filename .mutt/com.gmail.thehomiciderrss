@@ -1,0 +1,26 @@
+# ================  IMAP ====================
+
+set imap_user = thehomiciderrss@gmail.com
+set imap_pass = "`pass show Neomutt`"
+
+set spoolfile = "~/Mail/Internet/INBOX"
+set folder = "~/Mail/Internet"
+set record="~/Mail/Internet/Enviados"
+set postponed="~/Mail/Internet/Borradores"
+set mbox="~/Mail/Internet/Todos"
+
+# ================  SMTP ====================
+
+set smtp_url = "smtp://thehomiciderrss@gmail.com@smtp.gmail.com:587/"
+set smtp_pass = $imap_pass
+
+set realname = "b34n5"
+set from = "thehomiciderrss@gmail.com"
+
+# ================  OTHER ====================
+
+set mbox_type=Maildir
+
+# ================  INCLUDE ====================
+
+source ~/.muttrc
