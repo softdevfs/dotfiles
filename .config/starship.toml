@@ -2,7 +2,7 @@
 
 add_newline = true
 format = '''[sergio](garnet)@[$hostname](bold sea)$character 
-$directory'''
+$directory$shell'''
 palette = 'custom'
 
 [character]
@@ -27,3 +27,9 @@ custom_orange = '#d79921'
 
 [package]
 disabled = true
+
+[shell]
+fish_indicator = '\( 󰈺 \)'
+bash_indicator = '\(_ \)'
+style = 'cyan bold'
+disabled = false
