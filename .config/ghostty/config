@@ -1,0 +1,19 @@
+# window
+background = 282c34
+foreground = ffffff
+
+# keybindings
+keybind = shift+ctrl+h=new_split:up
+keybind = shift+ctrl+k=new_split:right
+keybind = shift+ctrl+l=new_split:down
+keybind = shift+ctrl+j=new_split:left
+keybind = shift+ctrl+p=goto_split:top
+keybind = shift+ctrl+m=goto_split:right
+keybind = shift+ctrl+n=goto_split:bottom
+keybind = shift+ctrl+z=goto_split:left
+keybind = shift+ctrl+r=reload_config
+keybind = shift+ctrl+q=close_surface
+keybind = shift+ctrl+w=close_window
+
+# decoration
+window-decoration = false
