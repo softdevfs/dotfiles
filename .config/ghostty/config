@@ -11,6 +11,11 @@ keybind = shift+ctrl+p=goto_split:top
 keybind = shift+ctrl+m=goto_split:right
 keybind = shift+ctrl+n=goto_split:bottom
 keybind = shift+ctrl+z=goto_split:left
+keybind = shift+super+up=resize_split:up,10
+keybind = shift+super+right=resize_split:right,10
+keybind = shift+super+down=resize_split:down,10
+keybind = shift+super+left=resize_split:left,10
+keybind = shift+ctrl+i=inspector:show
 keybind = shift+ctrl+r=reload_config
 keybind = shift+ctrl+q=close_surface
 keybind = shift+ctrl+w=close_window
