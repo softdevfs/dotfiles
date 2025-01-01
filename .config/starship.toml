@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = true
-format = '''[sergio](garnet)@[$hostname](bold sea)$character 
+format = '''$username@$hostname$character 
 $directory$shell'''
 palette = 'custom'
 
@@ -10,14 +10,13 @@ format = '''[       ](bold custom_orange) '''
 
 [directory]
 disabled = false
-home_symbol = '/home/sergio'
 format = '[current_dir:](cyan) [$path]($style)[$read_only]($read_only_style) '
 style = 'bold green'
 
 [hostname]
 ssh_only = false
-format = "$hostname"
-style = "bold fg:10"
+format = "[$hostname]($style)"
+style = "bold fg:10 sea"
 disabled = false
 
 [palettes.custom]
@@ -33,3 +32,10 @@ fish_indicator = '\( 󰈺 \)'
 bash_indicator = '\(_ \)'
 style = 'cyan bold'
 disabled = false
+
+[username]
+format = "[$user]($style)"
+style_user = "bold fg:10"
+disabled = false
+show_always = true
+aliases = { "sergio" = "n0p1lls" }
