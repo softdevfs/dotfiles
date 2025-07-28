@@ -330,10 +330,10 @@ myLogHook xmproc0 = def
         { ppOutput = hPutStrLn xmproc0   -- xmobar on monitor 1
         , ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
           -- Visible but not current workspace
-        , ppVisible = wrap ("<fc=#b16286>") "</fc>" . clickable
+        , ppVisible = wrap ("<fc=#b16286>") "</fc>"
 	-- Hidden Workspaces
-	, ppHidden = xmobarColor "#b16286" "" . clickable
- 	, ppHiddenNoWindows = xmobarColor "#458588" "" . clickable
+	, ppHidden = xmobarColor "#b16286" ""
+ 	, ppHiddenNoWindows = xmobarColor "#458588" ""
 	-- Title of active window
         , ppTitle = wrap ("<fc=#b16286>") "</fc>" . shorten 60
           -- Separator character
