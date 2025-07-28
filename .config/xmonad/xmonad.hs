@@ -22,9 +22,10 @@ import XMonad.Actions.FloatKeys
 import XMonad.Actions.Search
 import XMonad.Actions.SpawnOn
 
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, statusBar, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.SetWMName
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 
@@ -33,7 +34,7 @@ import XMonad.Layout.Spacing
 
 import XMonad.Prompt
 
-import XMonad.Util.EZConfig (mkKeymap, additionalKeysP)
+import XMonad.Util.EZConfig (mkKeymap)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
@@ -126,24 +127,18 @@ myKeys = \c -> mkKeymap c $
       , ("M-g", promptSearch defaultXPConfig google)
       -- search in youtube
       , ("M-y", promptSearch defaultXPConfig youtube)
-      -- launch emacs
-      , ("M-c", spawnOn " dev " "emacs")
       -- launch firefox
-      , ("M-f", spawnOn " www " "firefox-esr")
-      -- launch weechat
-      , ("M-i", spawnOn " chat " "kitty irssi")
+      , ("M-f", spawnOn " www " "firefox")
       -- set volume
       , ("M-v", spawn "pamixer --increase 5")
       , ("M-S-v", spawn "pamixer --decrease 5")
+      -- launch emoji selector
+      , ("M-e", spawn "~/scripts/emoji.sh")
       -- launch scrot (screenshoots)
       , ("M-s", spawn "scrot ~/pictures/screenshots/screenshot.png")
       -- launch scrot -s (selected frame screenshoot)
       , ("C-M-s", spawn "scrot -s ~/pictures/screenshots/screenshot.png")
-      -- record screen
-      , ("M-S-s", spawnOn " sys " "kitty screenRecorder")
-      -- play youtube video in mpv player
-      , ("M-C-p", spawnOn " vid " "~/scripts/playYoutube")
-      -- copy windows into all workspaces
+     -- copy windows into all workspaces
       , ("C-M-c", (windows copyToAll))
       -- remove windows from all workspaces except current workspace
       , ("C-M-S-c",  killAllOtherCopies)
@@ -272,6 +267,7 @@ myShowWNameTheme = def
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
+
 myLayout = spacingWithEdge 5 $ avoidStruts (tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
@@ -285,6 +281,7 @@ myLayout = spacingWithEdge 5 $ avoidStruts (tiled ||| Full)
 
      -- Percent of screen to increment by when resizing panes
      delta   = 3/100
+     
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -322,29 +319,27 @@ myManageHook = composeAll
 myEventHook = handleEventHook def <> Hacks.windowedFullscreenFixEventHook
 
 ------------------------------------------------------------------------
+-- "#71f338 
 -- Status bars and logging
 
 -- Perform an arbitrary action on each internal state change or X event.
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
 -- myLogHook = return ()
-myLogHook xmproc0 = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP
-        { ppOutput = \x -> hPutStrLn xmproc0 x   -- xmobar on monitor 1
-        , ppCurrent = xmobarColor "#b16286" "" . wrap
-                      ("<box type=Bottom width=2 mb=2 color=#b16286>") "</box>"
+myLogHook xmproc0 = def
+        { ppOutput = hPutStrLn xmproc0   -- xmobar on monitor 1
+        , ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
           -- Visible but not current workspace
-        , ppVisible = xmobarColor "#b16286" "" . clickable
-          -- Hidden workspace
-        , ppHidden = xmobarColor "#458588" "" . wrap
-                     ("<box type=Top width=2 mt=2 color=#458588>") "</box>" . clickable
-          -- Hidden workspaces (no windows)
-        , ppHiddenNoWindows = xmobarColor "#458588" ""  . clickable
-          -- Title of active window
-        , ppTitle = xmobarColor "#b16286" "" . shorten 60
+        , ppVisible = wrap ("<fc=#b16286>") "</fc>" . clickable
+	-- Hidden Workspaces
+	, ppHidden = xmobarColor "#b16286" "" . clickable
+ 	, ppHiddenNoWindows = xmobarColor "#458588" "" . clickable
+	-- Title of active window
+        , ppTitle = wrap ("<fc=#b16286>") "</fc>" . shorten 60
           -- Separator character
         , ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
           -- Urgent workspace
-        , ppUrgent = xmobarColor "#cc241d" "" . wrap "!" "!"
+        , ppUrgent = wrap ("<fc=#cc241d>") "</fc>" . wrap "!" "!"
           -- order of things in xmobar
         , ppOrder = \(ws:l:t:ex) -> [ws, t]
         }
@@ -359,26 +354,17 @@ myLogHook xmproc0 = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $
 --
 -- By default, do nothing.
 myStartupHook = do
-	spawnOnce "~/scripts/loop_wp.py &"
-	spawnOnce "setxkbmap es"
-
+    spawnOnce "~/scripts/loop_wp.py &"
+    spawnOnce "picom -b"
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-	xmproc <- spawnPipe "xmobar ~/.config/xmobar/xmobar.config"
- 	xmonad $ ewmh $ docks $ defaults xmproc
-
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
-defaults xmproc = def {
-      -- simple stuff
+	xmproc <- spawnPipe "xmobar ~/.config/xmobar/xmobar.config 2> ~/.xmobar.log"
+ 	xmonad $ ewmh $ docks $ def {
+        -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
         clickJustFocuses   = myClickJustFocuses,
@@ -388,15 +374,15 @@ defaults xmproc = def {
         normalBorderColor  = myNormalBorderColor,
         focusedBorderColor = myFocusedBorderColor,
 
-      -- key bindings
+        -- key bindings
         keys               = myKeys <> myExtendedKeys,
         mouseBindings      = myMouseBindings,
 
-      -- hooks, layouts
+        -- hooks, layouts
         layoutHook         = showWName' myShowWNameTheme $ myLayout,
         manageHook         = manageSpawn <> myManageHook,
         handleEventHook    = myEventHook,
-        logHook            = myLogHook xmproc,
+        logHook            = dynamicLogWithPP $ myLogHook xmproc,
         startupHook        = myStartupHook
     }
 
