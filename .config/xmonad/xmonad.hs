@@ -156,8 +156,6 @@ myKeys = \c -> mkKeymap c $
       , ("M-j", windows W.focusDown)
       -- Move focus to the previous window
       , ("M-k", windows W.focusUp)
-      -- Move focus to the master window
-      , ("M-m", windows W.focusMaster)
       -- Swap the focused window and the master window
       , ("M-<Return>", windows W.swapMaster)
       -- Swap the focused window with the next window
@@ -174,10 +172,6 @@ myKeys = \c -> mkKeymap c $
       , ("M-,", sendMessage (IncMasterN 1))
       -- Deincrement the number of windows in the master area
       , ("M-.", sendMessage (IncMasterN (-1)))
-      -- Quit xmonad
-      , ("M-S-q", io (exitWith ExitSuccess))
-      -- Restart xmonad
-      , ("M-q", spawn "xmonad --recompile; xmonad --restart")
       -- Run xmessage with a summary of the default keybindings (useful for beginners)
       , ("M-<F1>", spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
       -- move floating windows
@@ -317,31 +311,29 @@ myManageHook = composeAll
 -- myEventHook = mempty
 
 myEventHook = handleEventHook def <> Hacks.windowedFullscreenFixEventHook
-
 ------------------------------------------------------------------------
--- "#71f338 
 -- Status bars and logging
 
 -- Perform an arbitrary action on each internal state change or X event.
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
 -- myLogHook = return ()
-myLogHook xmproc0 = def
-        { ppOutput = hPutStrLn xmproc0   -- xmobar on monitor 1
-        , ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
-          -- Visible but not current workspace
+myLogHook xmproc = xmobarPP
+        { ppOutput = \x -> hPutStrLn xmproc x
+        -- Current workspace
+	,  ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
+        -- Visible but not current workspace
         , ppVisible = wrap ("<fc=#b16286>") "</fc>"
 	-- Hidden Workspaces
 	, ppHidden = xmobarColor "#b16286" ""
  	, ppHiddenNoWindows = xmobarColor "#458588" ""
 	-- Title of active window
-        , ppTitle = wrap ("<fc=#b16286>") "</fc>" . shorten 60
-          -- Separator character
-        , ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
-          -- Urgent workspace
-        , ppUrgent = wrap ("<fc=#cc241d>") "</fc>" . wrap "!" "!"
-          -- order of things in xmobar
-        , ppOrder = \(ws:l:t:ex) -> [ws, t]
+	, ppTitle = wrap ("<fc=#b16286>") "</fc>" . shorten 60
+        -- Sep
+	, ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
+        -- Order
+	, ppOrder = \(ws:l:t:ex) -> [ws, t]
+
         }
 
 
@@ -361,10 +353,24 @@ myStartupHook = do
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
+-- Now run xmonad with all the defaults we set up.
+
+-- Run xmonad with the settings you specify. No need to modify this.
+--
+--
+
 main = do
 	xmproc <- spawnPipe "xmobar ~/.config/xmobar/xmobar.config 2> ~/.xmobar.log"
- 	xmonad $ ewmh $ docks $ def {
-        -- simple stuff
+	xmonad . ewmh . docks $ defaults xmproc
+
+-- A structure containing your configuration settings, overriding
+-- fields in the default config. Any you don't override, will
+-- use the defaults defined in xmonad/XMonad/Config.hs
+--
+-- No need to modify this.
+--
+defaults xmproc = def {
+      -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
         clickJustFocuses   = myClickJustFocuses,
@@ -374,16 +380,16 @@ main = do
         normalBorderColor  = myNormalBorderColor,
         focusedBorderColor = myFocusedBorderColor,
 
-        -- key bindings
+      -- key bindings
         keys               = myKeys <> myExtendedKeys,
         mouseBindings      = myMouseBindings,
 
-        -- hooks, layouts
+      -- hooks, layouts
         layoutHook         = showWName' myShowWNameTheme $ myLayout,
         manageHook         = manageSpawn <> myManageHook,
-        handleEventHook    = myEventHook,
-        logHook            = dynamicLogWithPP $ myLogHook xmproc,
-        startupHook        = myStartupHook
+        handleEventHook	   = myEventHook,
+	logHook		   = dynamicLogWithPP $ myLogHook xmproc,
+	startupHook        = myStartupHook
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
