@@ -319,26 +319,15 @@ myEventHook = handleEventHook def <> Hacks.windowedFullscreenFixEventHook
 --
 -- myLogHook = return ()
 --
-myLogHook xmproc = dynamicLogWithPP $ xmobarPP {
-	-- Output
-	ppOutput = \x -> hPutStrLn xmproc x
-	-- Current workspace
-	, ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
-	-- Visible but not current workspace
-	, ppVisible = wrap ("<fc=#b16286>") "</fc>"
-	-- Hidden Workspaces
+myLogHook = def {
+	ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
+	, ppVisible = xmobarColor "#b16286" ""
 	, ppHidden = xmobarColor "#b16286" ""
 	, ppHiddenNoWindows = xmobarColor "#458588" ""
-	-- Title of active window
-	, ppTitle = wrap ("<fc=#b16286>") "</fc>" . shorten 60
-	-- Sep
+	, ppTitle = xmobarColor "#b16286" "" . shorten 60
 	, ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
-	-- Order
 	, ppOrder = \(ws:l:t:ex) -> [ws, t]
-
 }
-
-
 ------------------------------------------------------------------------
 -- Startup hook
 
@@ -360,17 +349,17 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 --
+main :: IO ()
 main = do
-	xmproc <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobar.config"
-	xmonad $ ewmhFullscreen $ ewmh $ xmobarProp $ defaults xmproc
+  xmonad
+        . ewmhFullscreen
+        . ewmh
+        =<< statusBar "xmobar ~/.config/xmobar/xmobar.config" myLogHook toggleStrutsKey defaults
+      where
+        toggleStrutsKey :: XConfig Layout -> (KeyMask, KeySym)
+        toggleStrutsKey XConfig{ modMask = m } = (m, xK_b)
 
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
-defaults xmproc = def {
+defaults = def {
 	-- simple stuff
 	terminal           = myTerminal,
 	focusFollowsMouse  = myFocusFollowsMouse,
@@ -388,8 +377,7 @@ defaults xmproc = def {
 	-- hooks, layouts
 	layoutHook         = showWName' myShowWNameTheme $ myLayout,
 	manageHook         = manageSpawn <> myManageHook,
-	handleEventHook	   = myEventHook,
-	logHook 	   = myLogHook xmproc,
+	handleEventHook    = myEventHook,
 	startupHook        = myStartupHook
 }
 
