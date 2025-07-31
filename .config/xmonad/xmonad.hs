@@ -22,7 +22,7 @@ import XMonad.Actions.FloatKeys
 import XMonad.Actions.Search
 import XMonad.Actions.SpawnOn
 
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, statusBar, xmobarPP, xmobarColor, shorten, PP(..))
+import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
@@ -318,23 +318,25 @@ myEventHook = handleEventHook def <> Hacks.windowedFullscreenFixEventHook
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
 -- myLogHook = return ()
-myLogHook xmproc = xmobarPP
-        { ppOutput = \x -> hPutStrLn xmproc x
-        -- Current workspace
-	,  ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
-        -- Visible but not current workspace
-        , ppVisible = wrap ("<fc=#b16286>") "</fc>"
+--
+myLogHook xmproc = dynamicLogWithPP $ xmobarPP {
+	-- Output
+	ppOutput = \x -> hPutStrLn xmproc x
+	-- Current workspace
+	, ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
+	-- Visible but not current workspace
+	, ppVisible = wrap ("<fc=#b16286>") "</fc>"
 	-- Hidden Workspaces
 	, ppHidden = xmobarColor "#b16286" ""
- 	, ppHiddenNoWindows = xmobarColor "#458588" ""
+	, ppHiddenNoWindows = xmobarColor "#458588" ""
 	-- Title of active window
 	, ppTitle = wrap ("<fc=#b16286>") "</fc>" . shorten 60
-        -- Sep
+	-- Sep
 	, ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
-        -- Order
+	-- Order
 	, ppOrder = \(ws:l:t:ex) -> [ws, t]
 
-        }
+}
 
 
 ------------------------------------------------------------------------
@@ -358,10 +360,9 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 --
-
 main = do
-	xmproc <- spawnPipe "xmobar ~/.config/xmobar/xmobar.config 2> ~/.xmobar.log"
-	xmonad . ewmh . docks $ defaults xmproc
+	xmproc <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobar.config"
+	xmonad $ ewmhFullscreen $ ewmh $ xmobarProp $ defaults xmproc
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -370,27 +371,27 @@ main = do
 -- No need to modify this.
 --
 defaults xmproc = def {
-      -- simple stuff
-        terminal           = myTerminal,
-        focusFollowsMouse  = myFocusFollowsMouse,
-        clickJustFocuses   = myClickJustFocuses,
-        borderWidth        = myBorderWidth,
-        modMask            = myModMask,
-        workspaces         = myWorkspaces,
-        normalBorderColor  = myNormalBorderColor,
-        focusedBorderColor = myFocusedBorderColor,
+	-- simple stuff
+	terminal           = myTerminal,
+	focusFollowsMouse  = myFocusFollowsMouse,
+	clickJustFocuses   = myClickJustFocuses,
+	borderWidth        = myBorderWidth,
+	modMask            = myModMask,
+	workspaces         = myWorkspaces,
+	normalBorderColor  = myNormalBorderColor,
+	focusedBorderColor = myFocusedBorderColor,
 
-      -- key bindings
-        keys               = myKeys <> myExtendedKeys,
-        mouseBindings      = myMouseBindings,
+	-- key bindings
+	keys               = myKeys <> myExtendedKeys,
+	mouseBindings      = myMouseBindings,
 
-      -- hooks, layouts
-        layoutHook         = showWName' myShowWNameTheme $ myLayout,
-        manageHook         = manageSpawn <> myManageHook,
-        handleEventHook	   = myEventHook,
-	logHook		   = dynamicLogWithPP $ myLogHook xmproc,
+	-- hooks, layouts
+	layoutHook         = showWName' myShowWNameTheme $ myLayout,
+	manageHook         = manageSpawn <> myManageHook,
+	handleEventHook	   = myEventHook,
+	logHook 	   = myLogHook xmproc,
 	startupHook        = myStartupHook
-    }
+}
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
 help :: String
