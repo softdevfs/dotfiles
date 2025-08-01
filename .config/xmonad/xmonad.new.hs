@@ -34,6 +34,7 @@ import XMonad.Layout.Spacing
 
 import XMonad.Prompt
 
+import XMonad.Util.ClickableWorkspaces
 import XMonad.Util.EZConfig (mkKeymap)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
@@ -319,14 +320,14 @@ myEventHook = handleEventHook def <> Hacks.windowedFullscreenFixEventHook
 --
 -- myLogHook = return ()
 --
-myLogHook = def {
-	ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
-	, ppVisible = xmobarColor "#b16286" "" . clickable
-	, ppHidden = xmobarColor "#b16286" "" . clickable
-	, ppHiddenNoWindows = xmobarColor "#458588" "" . clickable
-	, ppTitle = xmobarColor "#b16286" "" . shorten 60
-	, ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
-	, ppOrder = \(ws:l:t:ex) -> [ws, t]
+myLogHook = xmobarPP {
+  ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
+  , ppVisible = xmobarColor "#b16286" ""
+  , ppHidden = xmobarColor "#b16286" "" 
+  , ppHiddenNoWindows = xmobarColor "#458588" ""
+  , ppTitle = xmobarColor "#b16286" "" . shorten 60
+  , ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
+  , ppOrder = \(ws:l:t:ex) -> [ws, t]
 }
 ------------------------------------------------------------------------
 -- Startup hook
@@ -349,12 +350,9 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 --
-main :: IO ()
-main = xmonad
-     . ewmhFullscreen
-     . ewmh
-     . withEasySB (statusBarProp "xmobar ~/.config/xmobar/_xmobar.config" (pure myLogHook)) defToggleStrutsKey
-     $ defaults 
+
+mySB = statusBarProp "xmobar ~/.config/xmobar/_xmobar.config" (clickablePP myLogHook)
+main = xmonad . withSB mySB . ewmh . docks $ defaults
 
 defaults = def {
 	-- simple stuff
