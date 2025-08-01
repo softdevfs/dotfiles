@@ -351,10 +351,11 @@ myStartupHook = do
 --
 --
 
-mySB = statusBarProp "xmobar ~/.config/xmobar/_xmobar.config" (clickablePP myLogHook)
-main = xmonad . withSB mySB . ewmh . docks $ defaults
+main = do
+	myBar <- statusBarPipe "xmobar ~/.config/xmobar/_xmobar.config" (clickablePP myLogHook)
+	xmonad $ docks $ ewmh $ withSB myBar myConfig
 
-defaults = def {
+myConfig = def {
 	-- simple stuff
 	terminal           = myTerminal,
 	focusFollowsMouse  = myFocusFollowsMouse,
@@ -374,8 +375,7 @@ defaults = def {
 	manageHook         = manageSpawn <> myManageHook,
 	handleEventHook    = myEventHook,
 	startupHook        = myStartupHook
-}
-
+}  
 -- | Finally, a copy of the default bindings in simple textual tabular format.
 help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:",
