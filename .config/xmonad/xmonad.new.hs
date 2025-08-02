@@ -321,13 +321,13 @@ myEventHook = handleEventHook def <> Hacks.windowedFullscreenFixEventHook
 -- myLogHook = return ()
 --
 myLogHook = xmobarPP {
-  ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
-  , ppVisible = xmobarColor "#b16286" ""
-  , ppHidden = xmobarColor "#b16286" "" 
-  , ppHiddenNoWindows = xmobarColor "#458588" ""
-  , ppTitle = xmobarColor "#b16286" "" . shorten 60
-  , ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
-  , ppOrder = \(ws:l:t:ex) -> [ws, t]
+	ppCurrent = wrap ("<fc=#71f338>*") "</fc>"
+	, ppVisible = xmobarColor "#b16286" ""
+	, ppHidden = xmobarColor "#b16286" ""
+	, ppHiddenNoWindows = xmobarColor "#458588" ""
+	, ppTitle = xmobarColor "#b16286" "" . shorten 60
+	, ppSep =  "<fc=#928374> <fn=1>|</fn> </fc>"
+	, ppOrder = \(ws:l:t:ex) -> [ws, t]
 }
 ------------------------------------------------------------------------
 -- Startup hook
@@ -350,12 +350,9 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 --
+main = xmonad . docks . withSB (statusBarProp "xmobar ~/.config/xmobar/_xmobar.config" (clickablePP myLogHook)) . ewmhFullscreen . ewmh $ defaults
 
-main = do
-	myBar <- statusBarPipe "xmobar ~/.config/xmobar/_xmobar.config" (clickablePP myLogHook)
-	xmonad $ docks $ ewmh $ withSB myBar myConfig
-
-myConfig = def {
+defaults = def {
 	-- simple stuff
 	terminal           = myTerminal,
 	focusFollowsMouse  = myFocusFollowsMouse,
@@ -375,7 +372,8 @@ myConfig = def {
 	manageHook         = manageSpawn <> myManageHook,
 	handleEventHook    = myEventHook,
 	startupHook        = myStartupHook
-}  
+}
+
 -- | Finally, a copy of the default bindings in simple textual tabular format.
 help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:",
